@@ -1,9 +1,9 @@
 [![Build Status](https://travis-ci.com/StratfordHS-CS2/lab-10-cipher-username.svg)](https://travis-ci.com/StratfordHS-CS2/lab-10-cipher-username)
 
-# Lab 09 - Strings Review
+# Lab 10 - Cipher
 
 ## Lab Goal
-This lab was designed to give you an opportunity to demonstrate your mastery of using and manipulating strings. *This is a major grade.*
+This lab was designed to give you an opportunity to demonstrate your mastery of using and manipulating strings. **This is a major grade.**
 
 ## Instructions
 There are 3 classes you need to edit; one for each cipher. You should use the CipherRunner class to test your ciphers.  You do not need to edit the CipherRunner class.
@@ -11,11 +11,13 @@ There are 3 classes you need to edit; one for each cipher. You should use the Ci
 1. Reverse.java - This simple cipher just reverses the message to encode it. Another reversal decodes it.
    - Complete the `encode` and `decode` methods.
    - All spaces in the message should be removed, and the encoded message should be in all uppercase characters.
+
 2. Rotation.java - This cipher is similar to the Caeser cipher. It accepts two parameters, the message and the shift amount. To encrypt the message you will shift each letter by the amount of the shift.  For example, shifting the letter A by 5 gives you the letter F ('A' + 5 = 'F'). To decrypt the message you reverse the shift.
    - Complete the `encode` and `decode` methods.
    - All spaces in the message should be removed, and the encoded message should be in all uppercase characters.
    - http://practicalcryptography.com/ciphers/caesar-cipher/
    - [Caesar Cipher on YouTube](https://www.youtube.com/watch?v=o6TPx1Co_wg)
+   
 3. Vigenere.java - This cipher is like a series of Caeser ciphers.  It accepts two parameters, the message and the key.
    - Complete the `encode` and `decode` methods.
    - All spaces in the message should be removed, and the encoded message should be in all uppercase characters.
