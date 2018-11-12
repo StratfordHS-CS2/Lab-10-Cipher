@@ -86,7 +86,7 @@ public class CipherRunner
 
         System.out.println();
         System.out.println("Enter the message:");
-        String msg = keyboard.nextLine().toUpperCase();
+        String msg = keyboard.nextLine();
 
         switch( op ){
             case 1: System.out.println( rev.encode(msg) ); break;  //encode
@@ -110,7 +110,7 @@ public class CipherRunner
         int rot = keyboard.nextInt();
         keyboard.nextLine();
         System.out.println("Enter the message:");
-        String msg = keyboard.nextLine().toUpperCase();
+        String msg = keyboard.nextLine();
 
         switch( op ){
             case 1: System.out.println( rotator.encode(msg, rot) ); break;  //encode
@@ -131,9 +131,9 @@ public class CipherRunner
 
         System.out.println();
         System.out.print("Enter key: ");
-        String key = keyboard.nextLine().toUpperCase();
+        String key = keyboard.nextLine();
         System.out.println("Enter the message:");
-        String msg = keyboard.nextLine().toUpperCase();
+        String msg = keyboard.nextLine();
 
         switch( op ){
             case 1: System.out.println( v.encode(msg, key) ); break;
