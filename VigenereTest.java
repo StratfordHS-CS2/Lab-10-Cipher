@@ -3,51 +3,119 @@ import static org.junit.Assert.*;
 
 /**
  * Testing the Vigenere Cipher.
- *
+ * 
  * @author Dave Avis
- * @version 11.3.2018
+ * @version 12.7.2018
  */
 public class VigenereTest
 {
+    private Vigenere r = new Vigenere();
+    
     /**
-     * Testing the encoding method of the Vigenere cipher.
+     * The encoded message should be all caps.
      */
     @Test(timeout=2000)
-    public void encodeTest()
+    public void encodeCaseTest()
     {
-        String[] plain = {"Computer Science", "TestingTesting", "A long message in a bottle"};
-        String[] key   = {"Testing",          "xkcd",           "ThisIsAKey"};
-        String[] coded = {"VSEICGKKWUBMAIX",  "QOUWFXIWBCVLKQ", "TSWFOEECWYZLQFITODXJX"};
-
-        Vigenere v;
-        for( int i = 0; i < plain.length; i++ )
-        {
-            v = new Vigenere();
-            String testName = "Test: Vigenere->Encode->" + plain[i] + "->key(" + key[i] + ")";
-            String input = v.encode( plain[i], key[i] );
-            String expectedOutput = coded[i];
-            assertEquals( testName, expectedOutput, input );
-        }
+        assertEquals("Your encoded message is not all caps.", "BBB", r.encode("aaa", "B") );
     }
-
+    
     /**
-     * Testing the decoding method of the Vigenere cipher.
+     * The key should be made all caps.
      */
     @Test(timeout=2000)
-    public void decodeTest()
+    public void keyCaseTest()
     {
-        String[] plain = {"Computer Science", "TestingTesting", "A long message in a bottle"};
-        String[] key   = {"Testing",          "xkcd",           "ThisIsAKey"};
-        String[] coded = {"VSEICGKKWUBMAIX",  "QOUWFXIWBCVLKQ", "TSWFOEECWYZLQFITODXJX"};
-
-        Vigenere v;
-        for( int i = 0; i < coded.length; i++ )
-        {
-            v = new Vigenere();
-            String testName = "Test: Vigenere->Decode->" + coded[i] + "->key(" + key[i] + ")";
-            String input = v.decode( coded[i], key[i] );
-            String expectedOutput = plain[i].toUpperCase().replaceAll("\\s+","");
-            assertEquals( testName, expectedOutput, input );
-        }
+        assertEquals("You did not make the key all caps.", "BBB", r.encode("AAA","bbb") );
+    }
+    
+    /**
+     * Spaces should be removed from the message while encoding.
+     */
+    @Test(timeout=2000)
+    public void removeSpacesTest()
+    {
+        assertEquals("You did not remove spaces from the message.", "BB", r.encode("A A", "BBB"));
+    }
+    
+    /**
+     * Testing encode when the key is shorter than the message.
+     */
+    @Test(timeout=2000)
+    public void shortKeyEncodeTest()
+    {
+        assertEquals("Encode failed when they key is shorter than the message.", "BCD", r.encode("ABC","B") );
+    }
+    
+    /**
+     * Testing encoding a single letter with no wrapping.
+     */
+    @Test(timeout=2000)
+    public void singleLetterEncodeTest()
+    {
+        assertEquals("Single letter encode failed.", "D", r.encode("C", "B") );
+    }
+    
+    /**
+     * Testing encoding a string with no spaces and no wrap.
+     */
+    @Test(timeout=2000)
+    public void encodeStringNoSpacesNoWrapTest()
+    {
+        assertEquals("Encoding string with no spaces failed.", "BCD", r.encode("ABC", "BBB") );
+    }
+    
+    /**
+     * Testing encoding a string with spaces and no wrap.
+     */
+    @Test(timeout=2000)
+    public void encodeStringWithSpacesNoWrapTest()
+    {
+        assertEquals("Encoding string with spaces failed.", "BC", r.encode("A B", "BBB") );
+    }
+    
+    /**
+     * Testing encoding with a wrap around the end of the alphabet.
+     */
+    @Test(timeout=2000)
+    public void encodeRotateAroundEndTest()
+    {
+        assertEquals("Encoding wrap around end failed.", "ABC", r.encode("XYZ", "DDD") );
+    }
+    
+    /**
+     * Testing decoding when the key is shorter than the message.
+     */
+    @Test(timeout=2000)
+    public void shortKeyDecodeTest()
+    {
+        assertEquals("Decode failed when they key is shorter than the message.", "ABC", r.decode("BCD","B") );
+    }
+    
+    /**
+     * Testing decoding a single letter with no wrapping.
+     */
+    @Test(timeout=2000)
+    public void singleLetterDecodeTest()
+    {
+        assertEquals("Single letter decode failed.", "C", r.decode("D", "B") );
+    }
+    
+    /**
+     * Testing decoding a string with no wrapping.
+     */
+    @Test(timeout=2000)
+    public void decodeStringNoWrapTest()
+    {
+        assertEquals("Decoding string with no wrapping failed.", "ABC", r.decode("BCD", "BBB") );
+    }
+    
+    /**
+     * Testing decoding with wrapping.
+     */
+    @Test(timeout=2000)
+    public void decodeRotateAroundEndTest()
+    {
+        assertEquals("Decoding wrap around end failed.", "XYZ", r.decode("ABC", "DDD") );
     }
 }

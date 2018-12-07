@@ -5,45 +5,72 @@ import static org.junit.Assert.*;
  * Testing the Reverse cipher.
  * 
  * @author Dave Avis
- * @version 11.3.2018
+ * @version 12.7.2018
  */
 public class ReverseTest
 {
+    private Reverse r = new Reverse();
+    
     /**
-     * Testing the encoding method of the Reverse cipher.
+     * Encoded message should be all caps.
      */
     @Test(timeout=2000)
-    public void encodeTest()
+    public void encodeCaseTest()
     {
-        String[] plain = {"Computer Science", "TestingTesting", "A long message in a bottle"};
-        String[] coded = {"ECNEICSRETUPMOC",  "GNITSETGNITSET", "ELTTOBANIEGASSEMGNOLA"};
-
-        Reverse r;
-        for( int i = 0; i < plain.length; i++ )
-        {
-            r = new Reverse();
-            String input = r.encode( plain[i] );
-            String expectedOutput = coded[i];
-            assertEquals("Test: Reverse->Encode->" + plain[i], expectedOutput, input );
-        }
+        assertEquals("Your encoded message is not all caps.", "AAA", r.encode("aaa") );
     }
-
+    
     /**
-     * Testing the decoding method of the Reverse cipher.
+     * Encoded message shouldn't have spaces.
      */
     @Test(timeout=2000)
-    public void decodeTest()
+    public void removeSpacesTest()
     {
-        String[] plain = {"Computer Science", "TestingTesting", "A long message in a bottle"};
-        String[] coded = {"ECNEICSRETUPMOC",  "GNITSETGNITSET", "ELTTOBANIEGASSEMGNOLA"};
-
-        Reverse r;
-        for( int i = 0; i < coded.length; i++ )
-        {
-            r = new Reverse();
-            String input = r.decode( coded[i] );
-            String expectedOutput = plain[i].toUpperCase().replaceAll("\\s+","");
-            assertEquals("Test: Reverse->Decode->" + coded[i], expectedOutput, input );
-        }
+        assertEquals("You did not remove spaces from the message.", "AA", r.encode("A A"));
+    }
+    
+    /**
+     * Encoding a single letter.
+     */
+    @Test(timeout=2000)
+    public void singleLetterEncodeTest()
+    {
+        assertEquals("Single letter encode failed.", "C", r.encode("C") );
+    }
+    
+    /**
+     * Encoding a string with no spaces.
+     */
+    @Test(timeout=2000)
+    public void encodeStringNoSpacesTest()
+    {
+        assertEquals("Encoding string with no spaces failed.", "GNITSETGNITSET", r.encode("TESTINGTESTING") );
+    }
+    
+    /**
+     * Encoding a string with spaces.
+     */
+    @Test(timeout=2000)
+    public void encodeStringWithSpacesTest()
+    {
+        assertEquals("Encoding string with spaces failed.", "ECNEICSRETUPMOC", r.encode("COMPUTER SCIENCE") );
+    }
+    
+    /**
+     * Decoding a single letter.
+     */
+    @Test(timeout=2000)
+    public void singleLetterDecodeTest()
+    {
+        assertEquals("Single letter decode failed.", "C", r.decode("C") );
+    }
+    
+    /**
+     * Decoding a string.
+     */
+    @Test(timeout=2000)
+    public void decodeStringTest()
+    {
+        assertEquals("Decoding a string failed.", "TESTINGTESTING", r.decode("GNITSETGNITSET") );
     }
 }

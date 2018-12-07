@@ -5,53 +5,90 @@ import static org.junit.Assert.*;
  * Testing the Rotation cipher.
  * 
  * @author Dave Avis
- * @version 11.3.2018
+ * @version 12.7.2018
  */
 public class RotationTest
 {
+    private Rotation r = new Rotation();
+    
     /**
-     * Testing the encoding method of the Rotation cipher.
+     * The encoded message should be all caps.
      */
     @Test(timeout=2000)
-    public void encodeTest()
+    public void encodeCaseTest()
     {
-        String[] plain = {"Computer Science", "TestingTesting", "A long message in a bottle"};
-        int[] rotation = { 5,                  18,               13 };
-        String[] coded = {"HTRUZYJWXHNJSHJ", "LWKLAFYLWKLAFY", "NYBATZRFFNTRVANOBGGYR"};
-
-        Rotation r;
-        for( int i = 0; i < plain.length; i++ )
-        {
-            r = new Rotation();
-            String testName = "Test: Rotation->Encode->" + plain[i] + "->rot(" + rotation[i] + ")";
-            String input = r.encode( plain[i], rotation[i] );
-            String expectedOutput = coded[i];
-            //String alternateOutput = coded[i].replaceAll("\\s+","");
-            //assertEquals( testName, expectedOutput, input );
-            assertTrue( "Rotation.encode(\"" + plain[i] + "\", " + rotation[i] + ") failed.", input.equals(expectedOutput) );
-        }
+        assertEquals("Your encoded message is not all caps.", "BBB", r.encode("aaa", 1) );
     }
-
+    
     /**
-     * Testing the decoding method of the Rotation cipher.
+     * Spaces should be removed from the message.
      */
     @Test(timeout=2000)
-    public void decodeTest()
+    public void removeSpacesTest()
     {
-        String[] plain = {"Computer Science", "TestingTesting", "A long message in a bottle"};
-        int[] rotation = { 5,                  18,               13 };
-        String[] coded = {"HTRUZYJWXHNJSHJ", "LWKLAFYLWKLAFY", "NYBATZRFFNTRVANOBGGYR"};
-
-        Rotation r;
-        for( int i = 0; i < coded.length; i++ )
-        {
-            r = new Rotation();
-            String testName = "Test: Rotation->Decode->" + coded[i] + "->rot(" + rotation[i] + ")";
-            String input = r.decode( coded[i], rotation[i] );
-            String expectedOutput = plain[i].toUpperCase().replaceAll("\\s+","");
-            //String alternateOutput = plain[i].toUpperCase();
-            //assertEquals( testName, expectedOutput, input );
-            assertTrue( "Rotation.decode(\"" + coded[i] + "\", " + rotation[i] + ") failed.", input.equals(expectedOutput) );
-        }
+        assertEquals("You did not remove spaces from the message.", "BB", r.encode("A A", 1));
+    }
+    
+    /**
+     * Encoding a single letter with no wrapping.
+     */
+    @Test(timeout=2000)
+    public void singleLetterEncodeTest()
+    {
+        assertEquals("Single letter encode failed.", "D", r.encode("C", 1) );
+    }
+    
+    /**
+     * Encoding a string with spaces and no wrapping.
+     */
+    @Test(timeout=2000)
+    public void encodeStringNoSpacesNoWrapTest()
+    {
+        assertEquals("Encoding string with no spaces failed.", "BCD", r.encode("ABC", 1) );
+    }
+    
+    /**
+     * Encoding a string with spaces and no wrapping.
+     */
+    @Test(timeout=2000)
+    public void encodeStringWithSpacesNoWrapTest()
+    {
+        assertEquals("Encoding string with spaces failed.", "BC", r.encode("A B", 1) );
+    }
+    
+    /**
+     * Encoding with a wrap around the end.
+     */
+    @Test(timeout=2000)
+    public void rotateAroundEndTest()
+    {
+        assertEquals("Encoding wrap around end failed.", "ABC", r.encode("XYZ", 3) );
+    }
+    
+    /**
+     * Single letter decode with no wrapping.
+     */
+    @Test(timeout=2000)
+    public void singleLetterDecodeNoWrapTest()
+    {
+        assertEquals("Single letter decode failed.", "B", r.decode("C", 1) );
+    }
+    
+    /**
+     * String decoding with no wrapping.
+     */
+    @Test(timeout=2000)
+    public void decodeStringNoWrapTest()
+    {
+        assertEquals("Decoding a string failed.", "ABC", r.decode("BCD", 1) );
+    }
+    
+    /**
+     * Decoding with a wrap around the end.
+     */
+    @Test(timeout=2000)
+    public void decodeStringWithWrapTest()
+    {
+        assertEquals("Decoding a string with wrapping failed.", "XYZ", r.decode("ABC", 3) );
     }
 }
